@@ -33,20 +33,18 @@ import { exists } from '../helpers/assertions';
 import step from '../helpers/step';
 import resolver from '../helpers/resolver';
 
+import { formatDuration } from 'bumbox/helpers/format-duration';
+
 step(7, "Add a Helper");
 
 test("The helper correctly formats number of seconds into human-readable strings", function(assert) {
-  var helper = resolver.resolve('helper:format-duration');
-  assert.ok(helper, "The format-duration helper exists");
-  helper = helper._rawFunction;
-
-  assert.equal(helper(0), '0:00', "0 is converted into 0:00");
-  assert.equal(helper(8), '0:08', "Less than 10 seconds gets 0-padded");
-  assert.equal(helper(20), '0:20', "Numbers with trailing zeros are not truncated");
-  assert.equal(helper(60), '1:00', "Exactly 60 seconds is converted into 1:00");
-  assert.equal(helper(61), '1:01', "Less than 10 seconds into a minute gets 0-padded");
-  assert.equal(helper(70), '1:10', "Numbers with trailing zeros greater than one minute are not truncated");
-  assert.equal(helper(125), '2:05', "The helper works with multiple minutes");
+  assert.equal(formatDuration(0), '0:00', "0 is converted into 0:00");
+  assert.equal(formatDuration(8), '0:08', "Less than 10 seconds gets 0-padded");
+  assert.equal(formatDuration(20), '0:20', "Numbers with trailing zeros are not truncated");
+  assert.equal(formatDuration(60), '1:00', "Exactly 60 seconds is converted into 1:00");
+  assert.equal(formatDuration(61), '1:01', "Less than 10 seconds into a minute gets 0-padded");
+  assert.equal(formatDuration(70), '1:10', "Numbers with trailing zeros greater than one minute are not truncated");
+  assert.equal(formatDuration(125), '2:05', "The helper works with multiple minutes");
 });
 
 test("Each album formats the duration in seconds as MM:SS", function(assert) {
